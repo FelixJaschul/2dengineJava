@@ -23,12 +23,12 @@ public class App
     State state = new State();
     final int WIDTH      = 80;
     final int HEIGHT     = 40;
-    final int CELL_SIZE  = 20;
+    final int CELL_SIZE  = 40;
 
     void init()
     {
         state.setGrid(new int[HEIGHT][WIDTH]);
-        state.setWindow(SDL_CreateWindow("ENGINE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE, SDL_WINDOW_SHOWN));
+        state.setWindow(SDL_CreateWindow("ENGINE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN));
         state.setRenderer(SDL_CreateRenderer(state.getWindow(), -1, SDL_RENDERER_ACCELERATED));
         state.setRunning(true);
     }
@@ -42,28 +42,12 @@ public class App
 
     void frame()
     {
-        int[][] newGrid = new int[HEIGHT][WIDTH];
-
-        for (int y = 0; y < HEIGHT; y++)
-        {
-            for (int x = 0; x < WIDTH; x++)
-            {
-
-            }
-        }
-
         // Update mouse pos
         IntByReference mx = new IntByReference();
         IntByReference my = new IntByReference();
         SDL_GetMouseState(mx, my);
         state.getMouse().setX(mx.getValue() / CELL_SIZE);
         state.getMouse().setY(my.getValue() / CELL_SIZE);
-
-        // Paste updated grid into viewable grid
-        for (int y = 0; y < HEIGHT; y++)
-        {
-            System.arraycopy(newGrid[y], 0, state.getGrid()[y], 0, WIDTH);
-        }
     }
 
     void render()
@@ -78,11 +62,33 @@ public class App
                 cell.w = CELL_SIZE;
                 cell.h = CELL_SIZE;
 
-                if (state.getGrid()[y][x] == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 150, (byte) 0, (byte) 255);
-                else if ((x + y) % 2 == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 20, (byte) 20, (byte) 20, (byte) 255);
-                else SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 0, (byte) 0, (byte) 255);
+                if ((x + y) % 2 == 1)
+                {   // Background
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 20, (byte) 20, (byte) 20, (byte) 255);
+                    SDL_RenderFillRect(state.getRenderer(), cell);
+                }
+                else
+                {   // Background
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 0, (byte) 0, (byte) 255);
+                    SDL_RenderFillRect(state.getRenderer(), cell);
+                }
 
-                SDL_RenderFillRect(state.getRenderer(), cell);
+                if (x == state.getMouse().getX() && y == state.getMouse().getY())
+                {   // Hover effect
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 255, (byte) 0, (byte) 255);
+                    SDL_RenderDrawRect(state.getRenderer(), cell);
+                }
+
+                if (state.getGrid()[y][x] == 1)
+                {   // Green cell
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 150, (byte) 0, (byte) 255);
+                    SDL_RenderDrawRect(state.getRenderer(), cell);
+                }
+                if (state.getGrid()[y][x] == 2)
+                {   // Red cell
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 255, (byte) 0, (byte) 0, (byte) 255);
+                    SDL_RenderDrawRect(state.getRenderer(), cell);
+                }
             }
         }
     }
@@ -96,6 +102,10 @@ public class App
             {
                 case SDL_QUIT:
                     state.setRunning(false);
+                    break;
+
+                case SDL_MOUSEBUTTONDOWN:
+                    state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] = 2;
                     break;
 
                 case SDL_KEYDOWN:
@@ -114,8 +124,7 @@ public class App
             handle_events();
 
             render();
-            SDL_RenderPresent(state.getRenderer()); // actually present changes
-            SDL_Delay(200); // update delay
+            SDL_RenderPresent(state.getRenderer());
             frame();
         }
         deinit();
