@@ -121,8 +121,7 @@ public class App
                     break;
 
                 case SDL_KEYDOWN:
-                    if (ev.key.keysym.sym == SDLK_ESCAPE)
-                        state.setRunning(false);
+                    if (ev.key.keysym.sym == SDLK_ESCAPE) state.setRunning(false);
                     break;
             }
         }
