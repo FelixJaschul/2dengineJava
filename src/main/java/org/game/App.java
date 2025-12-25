@@ -25,28 +25,20 @@ public class App
     final int HEIGHT     = 40;
     final int CELL_SIZE  = 20;
 
-    void render()
+    void init()
     {
-        for (int y = 0; y < HEIGHT; y++)
-        {
-            for (int x = 0; x < WIDTH; x++)
-            {
-                SDL_Rect cell = new SDL_Rect();
-                cell.x = x * CELL_SIZE;
-                cell.y = y * CELL_SIZE;
-                cell.w = CELL_SIZE;
-                cell.h = CELL_SIZE;
-
-                if (state.getGrid()[y][x] == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 150, (byte) 0, (byte) 255);
-                else if ((x + y) % 2 == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 20, (byte) 20, (byte) 20, (byte) 255);
-                else SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 0, (byte) 0, (byte) 255);
-
-                SDL_RenderFillRect(state.getRenderer(), cell);
-            }
-        }
+        state.setGrid(new int[HEIGHT][WIDTH]);
+        state.setWindow(SDL_CreateWindow("ENGINE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE, SDL_WINDOW_SHOWN));
+        state.setRenderer(SDL_CreateRenderer(state.getWindow(), -1, SDL_RENDERER_ACCELERATED));
+        state.setRunning(true);
     }
 
-
+    void deinit()
+    {
+        SDL_DestroyRenderer(state.getRenderer());
+        SDL_DestroyWindow(state.getWindow());
+        SDL_Quit();
+    }
 
     void frame()
     {
@@ -74,6 +66,27 @@ public class App
         }
     }
 
+    void render()
+    {
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            for (int x = 0; x < WIDTH; x++)
+            {
+                SDL_Rect cell = new SDL_Rect();
+                cell.x = x * CELL_SIZE;
+                cell.y = y * CELL_SIZE;
+                cell.w = CELL_SIZE;
+                cell.h = CELL_SIZE;
+
+                if (state.getGrid()[y][x] == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 150, (byte) 0, (byte) 255);
+                else if ((x + y) % 2 == 1) SDL_SetRenderDrawColor(state.getRenderer(), (byte) 20, (byte) 20, (byte) 20, (byte) 255);
+                else SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 0, (byte) 0, (byte) 255);
+
+                SDL_RenderFillRect(state.getRenderer(), cell);
+            }
+        }
+    }
+
     void handle_events()
     {
         SDL_Event ev = new SDL_Event();
@@ -91,21 +104,6 @@ public class App
                     break;
             }
         }
-    }
-
-    void init()
-    {
-        state.setGrid(new int[HEIGHT][WIDTH]);
-        state.setWindow(SDL_CreateWindow("ENGINE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH * CELL_SIZE, HEIGHT * CELL_SIZE, SDL_WINDOW_SHOWN));
-        state.setRenderer(SDL_CreateRenderer(state.getWindow(), -1, SDL_RENDERER_ACCELERATED));
-        state.setRunning(true);
-    }
-
-    void deinit()
-    {
-        SDL_DestroyRenderer(state.getRenderer());
-        SDL_DestroyWindow(state.getWindow());
-        SDL_Quit();
     }
 
     void run()
