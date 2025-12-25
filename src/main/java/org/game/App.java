@@ -25,9 +25,12 @@ public class App
     final int HEIGHT     = 40;
     final int CELL_SIZE  = 20;
 
-    void render() {
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
+    void render()
+    {
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            for (int x = 0; x < WIDTH; x++)
+            {
                 SDL_Rect cell = new SDL_Rect();
                 cell.x = x * CELL_SIZE;
                 cell.y = y * CELL_SIZE;
@@ -122,6 +125,7 @@ public class App
 
     static void main()
     {
-        new App().run();
+        App app = new App();
+        app.run();
     }
 }

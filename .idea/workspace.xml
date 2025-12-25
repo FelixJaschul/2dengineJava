@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9b76857-ec16-440e-aa42-17e184b1b660" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GAME.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/game/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/game/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +98,7 @@
     "RunOnceActivity.MCP Project settings loaded": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "junie.onboarding.icon.badge.shown": "true",
@@ -161,7 +161,8 @@
       <option name="presentableId" value="Default" />
       <updated>1766668014572</updated>
       <workItem from="1766668015592" duration="654000" />
-      <workItem from="1766668687581" duration="2246000" />
+      <workItem from="1766668687581" duration="2863000" />
+      <workItem from="1766681603257" duration="1057000" />
     </task>
     <servers />
   </component>
