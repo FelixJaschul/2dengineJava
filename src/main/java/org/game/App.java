@@ -115,7 +115,9 @@ public class App
 
                 case SDL_MOUSEBUTTONDOWN:
                     if (state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] != 1)
+                    {
                         state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] = 2;
+                    }
                     break;
 
                 case SDL_KEYDOWN:
