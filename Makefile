@@ -17,7 +17,7 @@ n: clean
 
 MESSAGE = .
 
-push: add commit
+push: clean add commit
 	git push
 
 add:
