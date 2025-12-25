@@ -31,6 +31,14 @@ public class App
         state.setWindow(SDL_CreateWindow("ENGINE", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN));
         state.setRenderer(SDL_CreateRenderer(state.getWindow(), -1, SDL_RENDERER_ACCELERATED));
         state.setRunning(true);
+
+        int[][] grid = state.getGrid();
+        for (int x = 0;  x <= 15; x++) grid[3][x]   = 1;
+        for (int y = 3;  y <= 7;  y++) grid[y][15]  = 1;
+        for (int x = 15; x >= 4;  x--) grid[7][x]   = 1;
+        for (int y = 7;  y <= 11; y++) grid[y][4]   = 1;
+        for (int x = 4;  x <= 19; x++) grid[11][x]  = 1;
+        state.setGrid(grid);
     }
 
     void deinit()
@@ -42,7 +50,6 @@ public class App
 
     void frame()
     {
-        // Update mouse pos
         IntByReference mx = new IntByReference();
         IntByReference my = new IntByReference();
         SDL_GetMouseState(mx, my);
@@ -66,8 +73,7 @@ public class App
                 {   // Background
                     SDL_SetRenderDrawColor(state.getRenderer(), (byte) 20, (byte) 20, (byte) 20, (byte) 255);
                     SDL_RenderFillRect(state.getRenderer(), cell);
-                }
-                else
+                } else
                 {   // Background
                     SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 0, (byte) 0, (byte) 255);
                     SDL_RenderFillRect(state.getRenderer(), cell);
@@ -80,8 +86,11 @@ public class App
                 }
 
                 if (state.getGrid()[y][x] == 1)
-                {   // Green cell
-                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 0, (byte) 150, (byte) 0, (byte) 255);
+                {   // Path cell
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 180, (byte) 150, (byte) 100, (byte) 255);
+                    SDL_RenderFillRect(state.getRenderer(), cell);
+                    // Darker outline
+                    SDL_SetRenderDrawColor(state.getRenderer(), (byte) 100, (byte) 80, (byte) 50, (byte) 255);
                     SDL_RenderDrawRect(state.getRenderer(), cell);
                 }
                 if (state.getGrid()[y][x] == 2)
@@ -105,7 +114,8 @@ public class App
                     break;
 
                 case SDL_MOUSEBUTTONDOWN:
-                    state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] = 2;
+                    if (state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] != 1)
+                        state.getGrid()[state.getMouse().getY()][state.getMouse().getX()] = 2;
                     break;
 
                 case SDL_KEYDOWN:
